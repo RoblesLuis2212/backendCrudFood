@@ -4,7 +4,9 @@
   "description": "backend del proyecto crud food realizado en el modulo de react",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --env-file .env --watch index"
   },
   "keywords": [
     "rutas",
