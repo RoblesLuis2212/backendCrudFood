@@ -1,8 +1,20 @@
+import Producto from "../models/producto.js";
+
 export const prueba = (req, res) => {
   console.log("Desde el controlador de prueba");
   res.send("Prueba desde el controlador");
 };
 
-export const crearProducto = (req, res) => {
-  res.send("Aqui crearemos el producto");
+export const crearProducto = async (req, res) => {
+  try {
+    //1- verificar que llegan los datos validados
+    //2- pedir al modelo producto crear el objeto en la base de datos
+    console.log(req.body);
+    const productoNuevo = new Producto(req.body);
+    await productoNuevo.save();
+    res.status(201).json({ mensaje: "Producto creado exitosamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ mensaje: "Ocurrio un error al crear el producto" });
+  }
 };
