@@ -9,12 +9,26 @@ export const crearProducto = async (req, res) => {
   try {
     //1- verificar que llegan los datos validados
     //2- pedir al modelo producto crear el objeto en la base de datos
-    console.log(req.body);
+    // console.log(req.body);
     const productoNuevo = new Producto(req.body);
     await productoNuevo.save();
     res.status(201).json({ mensaje: "Producto creado exitosamente" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ mensaje: "Ocurrio un error al crear el producto" });
+  }
+};
+
+export const listarProductos = async (req, res) => {
+  try {
+    //1- Buscar la coleccion de productos
+    const productos = await Producto.find();
+    //2- enviar la respuesta al front
+    res.status(200).json(productos);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ mensaje: "Ocurrio un error al obtener los productos" });
   }
 };
