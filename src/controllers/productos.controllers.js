@@ -51,3 +51,29 @@ export const obtenerProductoID = async (req, res) => {
       .json({ mensaje: "Ocurrio un error al obtener el producto" });
   }
 };
+
+export const eliminarProducto = async (req, res) => {
+  try {
+    const productoBuscado = await Producto.findById(req.params.id);
+    if (!productoBuscado) {
+      return res
+        .status(404)
+        .json({ mensaje: "No se encontro el producto buscado" });
+    }
+    await Producto.findByIdAndDelete(req.params.id);
+    res.status(200).json({ mensaje: "Producto eliminado correctamente" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ mensaje: "Ocurrio un error al eliminar el producto" });
+  }
+};
+
+export const editarProducto = async (req, res) => {
+  try {
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ mensaje: "Ocurrio un error al editar el producto" });
+  }
+};
