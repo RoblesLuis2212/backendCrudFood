@@ -72,6 +72,14 @@ export const eliminarProducto = async (req, res) => {
 
 export const editarProducto = async (req, res) => {
   try {
+    const productoBuscado = await Producto.findById(req.params.id);
+    if (!productoBuscado) {
+      return res
+        .status(404)
+        .json({ mensaje: "No se encontro el producto buscado" });
+    }
+    await Producto.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).json({ mensaje: "Producto actualizado correctamente" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ mensaje: "Ocurrio un error al editar el producto" });
