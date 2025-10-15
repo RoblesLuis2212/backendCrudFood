@@ -1,3 +1,4 @@
+import { json } from "express";
 import Producto from "../models/producto.js";
 
 export const prueba = (req, res) => {
@@ -30,5 +31,23 @@ export const listarProductos = async (req, res) => {
     res
       .status(500)
       .json({ mensaje: "Ocurrio un error al obtener los productos" });
+  }
+};
+
+export const obtenerProductoID = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const productoBuscado = await Producto.findById(req.params.id);
+    if (!productoBuscado) {
+      return json
+        .status(404)
+        .json({ mensaje: "No se encontro el producto buscado" });
+    }
+    res.status(201).json(productoBuscado);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ mensaje: "Ocurrio un error al obtener el producto" });
   }
 };
