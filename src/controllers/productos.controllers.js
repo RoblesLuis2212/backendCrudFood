@@ -43,7 +43,7 @@ export const obtenerProductoID = async (req, res) => {
         .status(404)
         .json({ mensaje: "No se encontro el producto buscado" });
     }
-    res.status(201).json(productoBuscado);
+    res.status(200).json(productoBuscado);
   } catch (err) {
     console.error(err);
     res
