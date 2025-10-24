@@ -7,12 +7,13 @@ import {
   eliminarProducto,
   editarProducto,
 } from "../controllers/productos.controllers.js";
+import validacionProducto from "../middlewares/validacionProducto.js";
 /*GET - POST - PATH O PUT - DELETE */
 
 const router = Router();
 
 router.route("/test").get(prueba);
-router.route("/").post(crearProducto).get(listarProductos);
+router.route("/").post(validacionProducto, crearProducto).get(listarProductos);
 router
   .route("/:id")
   .get(obtenerProductoID)
