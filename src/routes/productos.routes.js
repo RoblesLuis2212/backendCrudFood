@@ -8,6 +8,7 @@ import {
   editarProducto,
 } from "../controllers/productos.controllers.js";
 import validacionProducto from "../middlewares/validacionProducto.js";
+import validacionidProducto from "../middlewares/validacionIDproducto.js";
 /*GET - POST - PATH O PUT - DELETE */
 
 const router = Router();
@@ -16,8 +17,8 @@ router.route("/test").get(prueba);
 router.route("/").post(validacionProducto, crearProducto).get(listarProductos);
 router
   .route("/:id")
-  .get(obtenerProductoID)
+  .get(validacionidProducto, obtenerProductoID)
   .delete(eliminarProducto)
-  .put(validacionProducto, editarProducto);
+  .put([validacionidProducto, validacionProducto], editarProducto);
 
 export default router;
