@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import resultadoValidacion from "./resultadoValidacion.js";
+import Producto from "../models/producto.js";
 
 const validacionProducto = [
   body("nombreProducto")
@@ -8,7 +9,24 @@ const validacionProducto = [
     .isLength({ min: 2, max: 100 })
     .withMessage(
       "El nombre del producto debe contener entre 2 y 100 caracteres"
-    ),
+    )
+    .custom(async (valor, { req }) => {
+      const productoExistente = await Producto.findOne({
+        nombreProducto: valor,
+      });
+      //pregunto si no encontramos un producto con el nombre del valor
+      if (!productoExistente) {
+        return true;
+      }
+      if (
+        req.params?.id &&
+        productoExistente._id.toString() === req.params.id
+      ) {
+        return true;
+      }
+      //enviar un mensaje de error
+      throw new Error("Ya existe un producto con ese nombre");
+    }),
   body("precio")
     .notEmpty()
     .withMessage("El precio del producto es un dato obligatorio")

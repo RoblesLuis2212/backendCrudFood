@@ -18,6 +18,6 @@ router
   .route("/:id")
   .get(obtenerProductoID)
   .delete(eliminarProducto)
-  .put(editarProducto);
+  .put(validacionProducto, editarProducto);
 
 export default router;
