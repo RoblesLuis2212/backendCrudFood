@@ -9,12 +9,16 @@ import {
 } from "../controllers/productos.controllers.js";
 import validacionProducto from "../middlewares/validacionProducto.js";
 import validacionidProducto from "../middlewares/validacionIDproducto.js";
+import verificarJWT from "../middlewares/verificarToken.js";
 /*GET - POST - PATH O PUT - DELETE */
 
 const router = Router();
 
 router.route("/test").get(prueba);
-router.route("/").post(validacionProducto, crearProducto).get(listarProductos);
+router
+  .route("/")
+  .post(verificarJWT, validacionProducto, crearProducto)
+  .get(listarProductos);
 router
   .route("/:id")
   .get(validacionidProducto, obtenerProductoID)
