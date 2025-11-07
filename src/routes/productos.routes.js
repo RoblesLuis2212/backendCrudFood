@@ -7,16 +7,25 @@ import {
   eliminarProducto,
   editarProducto,
 } from "../controllers/productos.controllers.js";
+import validacionProducto from "../middlewares/validacionProducto.js";
+import validacionidProducto from "../middlewares/validacionIDproducto.js";
+import verificarJWT from "../middlewares/verificarToken.js";
 /*GET - POST - PATH O PUT - DELETE */
 
 const router = Router();
 
 router.route("/test").get(prueba);
-router.route("/").post(crearProducto).get(listarProductos);
+router
+  .route("/")
+  .post(verificarJWT, validacionProducto, crearProducto)
+  .get(listarProductos);
 router
   .route("/:id")
-  .get(obtenerProductoID)
-  .delete(eliminarProducto)
-  .put(editarProducto);
+  .get(validacionidProducto, obtenerProductoID)
+  .delete([verificarJWT, validacionidProducto], eliminarProducto)
+  .put(
+    [verificarJWT, validacionidProducto, validacionProducto],
+    editarProducto
+  );
 
 export default router;
